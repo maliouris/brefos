@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Contracts\BeamsClient;
 use App\Contracts\PushNotifications;
 
 readonly class BeamsNotificationsService implements PushNotifications {
-    public function __construct(private BeamsClient $client)
+    public function __construct(private BeamsClientService $client)
     {
     }
 

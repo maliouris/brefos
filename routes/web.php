@@ -1,9 +1,9 @@
 <?php
 
-use App\Contracts\BeamsClient;
 use App\Http\Controllers\BabyActionController;
 use App\Http\Controllers\BabyController;
 use App\Http\Controllers\ProfileController;
+use App\Services\BeamsClientService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,15 +19,15 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/pusher/beams-auth', function (Request $request) {
-        $userID = $request->user()->id; // If you use a different auth system, do your checks here
+        $userID = $request->user()->id;
         $userIDInQueryParam = $request->input('user_id');
 
         if ($userID != $userIDInQueryParam) {
             return response('Inconsistent request', 401);
-        } else {
-            $beamsToken = App::get(BeamsClient::class)->generateToken($userID);
-            return response()->json($beamsToken);
         }
+
+        $beamsToken = App::get(BeamsClientService::class)->generateToken($userID);
+        return response()->json($beamsToken);
     })->name('pusher.beams.auth');
 
 
