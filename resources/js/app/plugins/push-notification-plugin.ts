@@ -4,10 +4,10 @@ import {User} from "@/app/types/models";
 import {BeamsNotificationService} from "@/app/services/beams-notification-service";
 
 export const PushNotificationPlugin =  {
-    install: (app: App, {clientInstanceId, user}: {clientInstanceId: string, user?: User}) => {
-        const pushNotificationService = new BeamsNotificationService(clientInstanceId)
-        if (user) {
-            pushNotificationService.connect(user)
+    install: (app: App, props: {clientInstanceId: string, user?: User}) => {
+        const pushNotificationService = new BeamsNotificationService(props.clientInstanceId)
+        if (props.user) {
+            pushNotificationService.connect(props.user)
         }
 
         app.provide(PUSH_NOTIFICATIONS, pushNotificationService)
